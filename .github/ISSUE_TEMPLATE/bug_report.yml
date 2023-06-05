@@ -29,10 +29,10 @@ body:
     id: version-info
     attributes:
       label: Version info
-      description: Please list what Node.js and rehype-stringify-nscode versions you are using.
+      description: Please list what Node.js and remark-stringify-nscode versions you are using.
       placeholder: |
         - Node.js v18.12.1
-        - rehype-stringify-nscode v0.1.0
+        - remark-stringify-nscode v0.1.0
     validations:
       required: true
   - type: textarea
