@@ -1,0 +1,42 @@
+name: "Bug Report"
+description: Report an issue
+labels:
+  - bug
+body:
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: Describe the bug
+      description: Please describe the problem. If you intend to submit a PR for this problem, please note that as well.
+      placeholder: Bug description
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: Please describes the steps needed to reproduce the problem.
+      placeholder: Reproduction
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: Please include any relevant logs from around the time this bug occurred. Preferably, please try to copy-paste the log text rather than inserting an image.
+      render: Shell
+  - type: textarea
+    id: version-info
+    attributes:
+      label: Version info
+      description: Please list what Node.js and rehype-stringify-nscode versions you are using.
+      placeholder: |
+        - Node.js v18.12.1
+        - rehype-stringify-nscode v0.1.0
+    validations:
+      required: true
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional information
+      description: Add any other context or screenshots about the problem here.
