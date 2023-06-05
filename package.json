@@ -1,6 +1,6 @@
 {
   "name": "rehype-stringify-nscode",
-  "version": "0.1.0",
+  "version": "0.0.0",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -26,6 +26,7 @@
     "vitest": "^0.31.4"
   },
   "dependencies": {
+    "@changesets/cli": "^2.26.1",
     "@types/mdast": "^3.0.11",
     "unified": "^10.1.2"
   }
