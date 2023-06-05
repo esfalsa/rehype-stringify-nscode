@@ -24,6 +24,8 @@
     "dist/*"
   ],
   "devDependencies": {
+    "@changesets/cli": "^2.26.1",
+    "@types/mdast": "^3.0.11",
     "@typescript-eslint/eslint-plugin": "^5.59.8",
     "@typescript-eslint/parser": "^5.59.8",
     "eslint": "^8.42.0",
@@ -34,8 +36,6 @@
     "vitest": "^0.31.4"
   },
   "dependencies": {
-    "@changesets/cli": "^2.26.1",
-    "@types/mdast": "^3.0.11",
     "unified": "^10.1.2"
   }
 }
