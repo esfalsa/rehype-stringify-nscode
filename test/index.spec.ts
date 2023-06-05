@@ -1,7 +1,7 @@
 import { unified } from "unified";
 import remarkParse from "remark-parse";
 import { test, expect } from "vitest";
-import remarkStringifyNSCode from "../dist/index";
+import remarkStringifyNSCode from "../dist/index.js";
 
 test("commonmark", () => {
   const file = unified().use(remarkParse).use(remarkStringifyNSCode)
