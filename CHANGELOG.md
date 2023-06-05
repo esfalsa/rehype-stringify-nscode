@@ -1,4 +1,4 @@
-# rehype-stringify-nscode
+# remark-stringify-nscode
 
 ## 0.1.0
 
