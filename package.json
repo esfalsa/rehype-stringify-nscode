@@ -6,8 +6,8 @@
   "types": "dist/index.d.ts",
   "type": "module",
   "scripts": {
-    "dev": "tsup src/index.ts --dts --minify --target=esnext --clean --watch",
-    "build": "tsup src/index.ts --dts --minify --target=esnext --clean",
+    "dev": "tsup src/index.ts --dts --minify --target=esnext --clean --format=esm,cjs --watch",
+    "build": "tsup src/index.ts --dts --minify --target=esnext --clean --format=esm,cjs",
     "format": "prettier --write .",
     "lint": "eslint ."
   },
@@ -21,5 +21,9 @@
     "eslint-config-prettier": "^8.8.0",
     "prettier": "^2.8.8",
     "tsup": "^6.7.0"
+  },
+  "dependencies": {
+    "@types/mdast": "^3.0.11",
+    "unified": "^10.1.2"
   }
 }
