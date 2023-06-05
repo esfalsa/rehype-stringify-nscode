@@ -14,7 +14,8 @@
     "build": "tsup src/index.ts --dts --minify --target=esnext --clean --format=esm,cjs",
     "test": "vitest",
     "format": "prettier --write .",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "release": "pnpm build && changeset publish"
   },
   "keywords": [],
   "author": "",
