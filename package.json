@@ -1,14 +1,33 @@
 {
   "name": "remark-stringify-nscode",
   "version": "0.1.1",
-  "description": "",
+  "type": "module",
+  "description": "remark plugin to add support for serializing markdown into NSCode",
+  "keywords": [
+    "nationstates",
+    "unified",
+    "remark",
+    "remark-plugin",
+    "plugin",
+    "markdown",
+    "mdast",
+    "stringify",
+    "serialize"
+  ],
+  "homepage": "https://github.com/esfalsa/remark-stringify-nscode#readme",
+  "bugs": "https://github.com/esfalsa/remark-stringify-nscode/issues",
+  "license": "MIT",
+  "author": "Pronoun <pronoun.nationstates@gmail.com> (https://esfalsa.github.io)",
+  "files": [
+    "dist/*"
+  ],
   "main": "dist/index.js",
   "exports": {
     "import": "./dist/index.js",
     "require": "./dist/index.cjs"
   },
   "types": "dist/index.d.ts",
-  "type": "module",
+  "repository": "github:esfalsa/remark-stringify-nscode",
   "scripts": {
     "dev": "tsup src/index.ts --dts --minify --target=esnext --clean --format=esm,cjs --watch",
     "build": "tsup src/index.ts --dts --minify --target=esnext --clean --format=esm,cjs",
@@ -17,12 +36,6 @@
     "lint": "eslint .",
     "release": "pnpm build && changeset publish"
   },
-  "keywords": [],
-  "author": "",
-  "license": "MIT",
-  "files": [
-    "dist/*"
-  ],
   "devDependencies": {
     "@changesets/cli": "^2.26.1",
     "@typescript-eslint/eslint-plugin": "^5.59.8",

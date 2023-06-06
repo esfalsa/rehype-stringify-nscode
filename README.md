@@ -17,7 +17,7 @@
       - [`nodes`](#nodes)
       - [`options`](#options-1)
     - [`allChildren(node[, options])`](#allchildrennode-options)
-    - [`node`](#node)
+      - [`node`](#node)
       - [`options`](#options-2)
   - [Syntax](#syntax)
   - [Syntax tree](#syntax-tree)
@@ -101,7 +101,7 @@ Configuration (optional). Expects an objects with the keys `before`, `after`, an
 
 Serializes the children of the given node into NSCode.
 
-### `node`
+#### `node`
 
 The node whose children are to be serialized.
 
