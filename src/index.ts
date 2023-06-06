@@ -1,7 +1,18 @@
+import { defaultHandlers } from "./defaults.js";
+
 import type { Plugin } from "unified";
 import type { Content, Root } from "mdast";
+import type { SerializationOptions, Options, HandlerMap } from "./types.js";
 
-const plugin: Plugin = function remarkStringifyNSCode() {
+let handlers: HandlerMap = defaultHandlers;
+
+const plugin: Plugin<[Options] | []> = function remarkStringifyNSCode(
+  options: Options = {}
+) {
+  if ("handlers" in options) {
+    handlers = { ...handlers, ...options.handlers };
+  }
+
   Object.assign(this, { Compiler: one });
 };
 
@@ -14,54 +25,54 @@ export default plugin;
  * @returns Serialized node.
  */
 const one = (node: Content | Root): string => {
-  switch (node.type) {
-    case "root":
-      return all(node.children, "\n\n");
-    case "paragraph":
-      return all(node.children);
-    case "text":
+  const handler = handlers[node.type];
+
+  if (!handler) {
+    console.warn(`Unhandled node type: ${node.type}`);
+    if ("value" in node) {
       return node.value;
-    case "emphasis":
-      return `[i]${all(node.children)}[/i]`;
-    case "strong":
-      return `[b]${all(node.children)}[/b]`;
-    // case "heading":
-    //   return `[h${node.depth}]${all(node.children)}[/h${node.depth}]`;
-    case "link":
-      return `[url=${node.url}]${all(node.children)}[/url]`;
-    case "image":
-      return `[img]${node.url}[/img]`;
-    case "blockquote":
-      return `[quote]${all(node.children)}[/quote]`;
-    case "list":
-      return `[${node.ordered ? "list=1" : "list"}]\n${all(
-        node.children,
-        "\n"
-      )}\n[/list]`;
-    case "listItem":
-      return `[*]${all(node.children)}`;
-    case "thematicBreak":
-      return `[hr]`;
-    case "code":
-      return `[pre]\n${node.value}\n[/pre]`;
-    default:
-      console.warn(`Unhandled node type: ${node.type}`);
-      if ("value" in node) {
-        return node.value;
-      } else if ("children" in node) {
-        return all(node.children);
-      }
-      return "";
+    } else if ("children" in node) {
+      return allChildren(node);
+    }
+    return "";
   }
+
+  //@ts-expect-error The node won't match all possible nodes, just the one for the value of node.type.
+  return handler(node);
 };
 
 /**
  * Serialize a list of nodes into a NSCode string.
  *
  * @param nodes The list of nodes to serialize.
- * @param separator The separator between nodes.
+ * @param options The options to serialize the nodes with.
  * @returns Serialized nodes.
  */
-function all(nodes: Array<Content | Root>, separator = "") {
-  return nodes.map((node) => one(node)).join(separator);
+export function all(
+  nodes: Array<Content | Root>,
+  options: SerializationOptions = {}
+) {
+  const before = options.before || "";
+  const after = options.after || "";
+  const separator = options.separator || "";
+
+  return before + nodes.map(one).join(separator) + after;
+}
+
+/**
+ * Serialize all children of a node into a NSCode string.
+ *
+ * @param node The node whose children should be serialized.
+ * @param options The options to serialize the children with.
+ * @returns Serialized nodes.
+ */
+export function allChildren(
+  node: Content | Root,
+  options: SerializationOptions = {}
+) {
+  if (!("children" in node)) {
+    return (options.before || "") + (options.after || "");
+  }
+
+  return all(node.children, options);
 }

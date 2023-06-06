@@ -10,7 +10,15 @@
   - [Install](#install)
   - [Use](#use)
   - [API](#api)
-    - [`unified().use(remarkStringifyNSCode)`](#unifieduseremarkstringifynscode)
+    - [`unified().use(remarkStringifyNSCode[, options])`](#unifieduseremarkstringifynscode-options)
+      - [`options`](#options)
+        - [`options.handlers`](#optionshandlers)
+    - [`all(nodes[, options])`](#allnodes-options)
+      - [`nodes`](#nodes)
+      - [`options`](#options-1)
+    - [`allChildren(node[, options])`](#allchildrennode-options)
+    - [`node`](#node)
+      - [`options`](#options-2)
   - [Syntax](#syntax)
   - [Syntax tree](#syntax-tree)
   - [Types](#types)
@@ -58,17 +66,48 @@ const file = unified()
 console.log(String(file));
 
 // Output:
-// [b]Hello, world[/b]
+// [b]Hello, world![/b]
 ```
 
 ## API
 
-This package exports no identifiers.
-The default export is `remarkStringifyNSCode`.
+This package exports the identifiers `all` and `allChildren`. The default export is `remarkStringifyNSCode`.
 
-### `unified().use(remarkStringifyNSCode)`
+### `unified().use(remarkStringifyNSCode[, options])`
 
 Serializes markdown into NSCode.
+
+#### `options`
+
+Configuration (optional).
+
+##### `options.handlers`
+
+Custom handlers for serializing markdown. Expects an object with [mdast](https://github.com/syntax-tree/mdast) node types as keys, and functions that take a node of that type and return a string as values.
+
+### `all(nodes[, options])`
+
+Serializes a list of nodes into NSCode.
+
+#### `nodes`
+
+The array of nodes to serialize.
+
+#### `options`
+
+Configuration (optional). Expects an objects with the keys `before`, `after`, and `separator` and string values that respectively indicate the strings to insert before, after, and between the nodes.
+
+### `allChildren(node[, options])`
+
+Serializes the children of the given node into NSCode.
+
+### `node`
+
+The node whose children are to be serialized.
+
+#### `options`
+
+Configuration (optional). Expects an objects with the keys `before`, `after`, and `separator` and string values that respectively indicate the strings to insert before, after, and between the child nodes.
 
 ## Syntax
 
