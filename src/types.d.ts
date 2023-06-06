@@ -1,5 +1,9 @@
 import type { Content, Root } from "mdast";
 
+export type Options = {
+  handlers?: HandlerMap;
+};
+
 export type HandlerMap = {
   [key in (Content | Root)["type"]]?: (
     node: Extract<Content | Root, { type: key }>

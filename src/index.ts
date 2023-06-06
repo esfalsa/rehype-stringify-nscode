@@ -2,9 +2,17 @@ import { defaultHandlers } from "./defaults.js";
 
 import type { Plugin } from "unified";
 import type { Content, Root } from "mdast";
-import type { SerializationOptions } from "./types.js";
+import type { SerializationOptions, Options, HandlerMap } from "./types.js";
 
-const plugin: Plugin = function remarkStringifyNSCode() {
+let handlers: HandlerMap = defaultHandlers;
+
+const plugin: Plugin<[Options] | []> = function remarkStringifyNSCode(
+  options: Options = {}
+) {
+  if ("handlers" in options) {
+    handlers = { ...handlers, ...options.handlers };
+  }
+
   Object.assign(this, { Compiler: one });
 };
 
@@ -17,7 +25,7 @@ export default plugin;
  * @returns Serialized node.
  */
 const one = (node: Content | Root): string => {
-  const handler = defaultHandlers[node.type];
+  const handler = handlers[node.type];
 
   if (!handler) {
     console.warn(`Unhandled node type: ${node.type}`);
