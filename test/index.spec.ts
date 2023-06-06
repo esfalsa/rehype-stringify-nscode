@@ -1,7 +1,7 @@
 import { unified } from "unified";
 import remarkParse from "remark-parse";
 import { test, expect } from "vitest";
-import remarkStringifyNSCode from "../dist/index.js";
+import remarkStringifyNSCode, { allChildren } from "../dist/index.js";
 
 test("commonmark", () => {
   const file = unified().use(remarkParse).use(remarkStringifyNSCode)
@@ -78,4 +78,22 @@ Inline code with backticks
 print '3 backticks or'
 print 'indent 4 spaces'
 [/pre]`);
+});
+
+test("custom handlers", () => {
+  const file = unified()
+    .use(remarkParse)
+    .use(remarkStringifyNSCode, {
+      handlers: {
+        emphasis: (node) =>
+          allChildren(node, { before: "[b][i]", after: "[/i][/b]" }),
+        heading: (node) =>
+          allChildren(node, { before: "[b][size=200]", after: "[/size][/b]" }),
+      },
+    })
+    .processSync("*emphasis*\n\n# Heading");
+
+  expect(String(file)).toEqual(
+    "[b][i]emphasis[/i][/b]\n\n[b][size=200]Heading[/size][/b]"
+  );
 });
