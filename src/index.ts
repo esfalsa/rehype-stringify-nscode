@@ -16,32 +16,47 @@ export default plugin;
 const one = (node: Content | Root): string => {
   switch (node.type) {
     case "root":
-      return all(node.children, "\n\n");
+      return allChildren(node, {
+        separator: "\n\n",
+      });
     case "paragraph":
-      return all(node.children);
+      return allChildren(node);
     case "text":
       return node.value;
     case "emphasis":
-      return `[i]${all(node.children)}[/i]`;
+      return allChildren(node, {
+        before: "[i]",
+        after: "[/i]",
+      });
     case "strong":
-      return `[b]${all(node.children)}[/b]`;
-    // case "heading":
-    //   return `[h${node.depth}]${all(node.children)}[/h${node.depth}]`;
+      return allChildren(node, {
+        before: "[b]",
+        after: "[/b]",
+      });
     case "link":
-      return `[url=${node.url}]${all(node.children)}[/url]`;
+      return allChildren(node, {
+        before: `[url=${node.url}]`,
+        after: `[/url]`,
+      });
     case "image":
       return `[img]${node.url}[/img]`;
     case "blockquote":
-      return `[quote]${all(node.children)}[/quote]`;
+      return allChildren(node, {
+        before: "[quote]",
+        after: "[/quote]",
+      });
     case "list":
-      return `[${node.ordered ? "list=1" : "list"}]\n${all(
-        node.children,
-        "\n"
-      )}\n[/list]`;
+      return allChildren(node, {
+        before: `[${node.ordered ? "list=1" : "list"}]\n`,
+        after: `\n[/list]`,
+        separator: "\n",
+      });
     case "listItem":
-      return `[*]${all(node.children)}`;
+      return allChildren(node, {
+        before: "[*]",
+      });
     case "thematicBreak":
-      return `[hr]`;
+      return "[hr]";
     case "code":
       return `[pre]\n${node.value}\n[/pre]`;
     default:
@@ -49,9 +64,10 @@ const one = (node: Content | Root): string => {
       if ("value" in node) {
         return node.value;
       } else if ("children" in node) {
-        return all(node.children);
+        return allChildren(node);
+      } else {
+        return "";
       }
-      return "";
   }
 };
 
@@ -59,9 +75,54 @@ const one = (node: Content | Root): string => {
  * Serialize a list of nodes into a NSCode string.
  *
  * @param nodes The list of nodes to serialize.
- * @param separator The separator between nodes.
+ * @param options The options to serialize the nodes with.
  * @returns Serialized nodes.
  */
-function all(nodes: Array<Content | Root>, separator = "") {
-  return nodes.map((node) => one(node)).join(separator);
+function all(nodes: Array<Content | Root>, options: SerializationOptions = {}) {
+  const before = options.before || "";
+  const after = options.after || "";
+  const separator = options.separator || "";
+
+  return before + nodes.map(one).join(separator) + after;
 }
+
+/**
+ * Serialize all children of a node into a NSCode string.
+ *
+ * @param node The node whose children should be serialized.
+ * @param options The options to serialize the children with.
+ * @returns Serialized nodes.
+ */
+function allChildren(node: Content | Root, options: SerializationOptions = {}) {
+  if (!("children" in node)) {
+    return (options.before || "") + (options.after || "");
+  }
+
+  return all(node.children, options);
+}
+
+/**
+ * Options for serializing a list of nodes.
+ */
+type SerializationOptions = {
+  /**
+   * The string to insert before the first node.
+   *
+   * @defaultValue `""`
+   */
+  before?: string;
+
+  /**
+   * The string to insert after the last node.
+   *
+   * @defaultValue `""`
+   */
+  after?: string;
+
+  /**
+   * The string to insert between nodes.
+   *
+   * @defaultValue `""`
+   */
+  separator?: string;
+};
