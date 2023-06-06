@@ -10,7 +10,9 @@
   - [Install](#install)
   - [Use](#use)
   - [API](#api)
-    - [`unified().use(remarkStringifyNSCode)`](#unifieduseremarkstringifynscode)
+    - [`unified().use(remarkStringifyNSCode[, options])`](#unifieduseremarkstringifynscode-options)
+      - [`options`](#options)
+        - [`options.handlers`](#optionshandlers)
   - [Syntax](#syntax)
   - [Syntax tree](#syntax-tree)
   - [Types](#types)
@@ -58,7 +60,7 @@ const file = unified()
 console.log(String(file));
 
 // Output:
-// [b]Hello, world[/b]
+// [b]Hello, world![/b]
 ```
 
 ## API
@@ -66,9 +68,17 @@ console.log(String(file));
 This package exports no identifiers.
 The default export is `remarkStringifyNSCode`.
 
-### `unified().use(remarkStringifyNSCode)`
+### `unified().use(remarkStringifyNSCode[, options])`
 
 Serializes markdown into NSCode.
+
+#### `options`
+
+Configuration (optional).
+
+##### `options.handlers`
+
+Custom handlers for serializing markdown. Expects an object with [mdast](https://github.com/syntax-tree/mdast) node types as keys, and functions that take a node of that type and return a string as values.
 
 ## Syntax
 
