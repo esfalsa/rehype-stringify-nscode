@@ -94,6 +94,6 @@ test("custom handlers", () => {
     .processSync("*emphasis*\n\n# Heading");
 
   expect(String(file)).toEqual(
-    "[b][i]emphasis[/i][/b]\n\n[b][size=200]Heading[/size][/b]"
+    "[b][i]emphasis[/i][/b]\n\n[b][size=200]Heading[/size][/b]",
   );
 });

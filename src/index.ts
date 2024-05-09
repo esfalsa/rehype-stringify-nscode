@@ -7,7 +7,7 @@ import type { SerializationOptions, Options, HandlerMap } from "./types.js";
 let handlers: HandlerMap = defaultHandlers;
 
 const plugin: Plugin<[Options] | []> = function remarkStringifyNSCode(
-  options: Options = {}
+  options: Options = {},
 ) {
   if ("handlers" in options) {
     handlers = { ...handlers, ...options.handlers };
@@ -50,7 +50,7 @@ const one = (node: RootContent | Root): string => {
  */
 export function all(
   nodes: Array<RootContent | Root>,
-  options: SerializationOptions = {}
+  options: SerializationOptions = {},
 ) {
   const before = options.before || "";
   const after = options.after || "";
@@ -68,7 +68,7 @@ export function all(
  */
 export function allChildren(
   node: RootContent | Root,
-  options: SerializationOptions = {}
+  options: SerializationOptions = {},
 ) {
   if (!("children" in node)) {
     return (options.before || "") + (options.after || "");

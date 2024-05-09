@@ -6,7 +6,7 @@ export type Options = {
 
 export type HandlerMap = {
   [key in (RootContent | Root)["type"]]?: (
-    node: Extract<RootContent | Root, { type: key }>
+    node: Extract<RootContent | Root, { type: key }>,
   ) => string;
 };
 
