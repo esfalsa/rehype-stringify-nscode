@@ -1,7 +1,7 @@
 import { defaultHandlers } from "./defaults.js";
 
 import type { Plugin } from "unified";
-import type { Content, Root } from "mdast";
+import type { Root, RootContent } from "mdast";
 import type { SerializationOptions, Options, HandlerMap } from "./types.js";
 
 let handlers: HandlerMap = defaultHandlers;
@@ -24,7 +24,7 @@ export default plugin;
  * @param node The node to serialize.
  * @returns Serialized node.
  */
-const one = (node: Content | Root): string => {
+const one = (node: RootContent | Root): string => {
   const handler = handlers[node.type];
 
   if (!handler) {
@@ -37,7 +37,7 @@ const one = (node: Content | Root): string => {
     return "";
   }
 
-  //@ts-expect-error The node won't match all possible nodes, just the one for the value of node.type.
+  // @ts-expect-error The node won't match all possible nodes, just the one for the value of node.type.
   return handler(node);
 };
 
@@ -49,7 +49,7 @@ const one = (node: Content | Root): string => {
  * @returns Serialized nodes.
  */
 export function all(
-  nodes: Array<Content | Root>,
+  nodes: Array<RootContent | Root>,
   options: SerializationOptions = {}
 ) {
   const before = options.before || "";
@@ -67,7 +67,7 @@ export function all(
  * @returns Serialized nodes.
  */
 export function allChildren(
-  node: Content | Root,
+  node: RootContent | Root,
   options: SerializationOptions = {}
 ) {
   if (!("children" in node)) {
