@@ -1,5 +1,11 @@
 # remark-stringify-nscode
 
+## 0.3.0
+
+### Minor Changes
+
+- 5f69822: feat!: update for unified v11
+
 ## 0.2.0
 
 ### Minor Changes
