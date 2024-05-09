@@ -1,13 +1,13 @@
 import { defaultHandlers } from "./defaults.js";
 
 import type { Plugin } from "unified";
-import type { Content, Root } from "mdast";
+import type { Root, RootContent } from "mdast";
 import type { SerializationOptions, Options, HandlerMap } from "./types.js";
 
 let handlers: HandlerMap = defaultHandlers;
 
 const plugin: Plugin<[Options] | []> = function remarkStringifyNSCode(
-  options: Options = {}
+  options: Options = {},
 ) {
   if ("handlers" in options) {
     handlers = { ...handlers, ...options.handlers };
@@ -24,7 +24,7 @@ export default plugin;
  * @param node The node to serialize.
  * @returns Serialized node.
  */
-const one = (node: Content | Root): string => {
+const one = (node: RootContent | Root): string => {
   const handler = handlers[node.type];
 
   if (!handler) {
@@ -37,7 +37,7 @@ const one = (node: Content | Root): string => {
     return "";
   }
 
-  //@ts-expect-error The node won't match all possible nodes, just the one for the value of node.type.
+  // @ts-expect-error The node won't match all possible nodes, just the one for the value of node.type.
   return handler(node);
 };
 
@@ -49,8 +49,8 @@ const one = (node: Content | Root): string => {
  * @returns Serialized nodes.
  */
 export function all(
-  nodes: Array<Content | Root>,
-  options: SerializationOptions = {}
+  nodes: Array<RootContent | Root>,
+  options: SerializationOptions = {},
 ) {
   const before = options.before || "";
   const after = options.after || "";
@@ -67,8 +67,8 @@ export function all(
  * @returns Serialized nodes.
  */
 export function allChildren(
-  node: Content | Root,
-  options: SerializationOptions = {}
+  node: RootContent | Root,
+  options: SerializationOptions = {},
 ) {
   if (!("children" in node)) {
     return (options.before || "") + (options.after || "");
